@@ -1,0 +1,49 @@
+#%RAML 1.0
+title: securityschema
+baseUri: https://localhost:8081/prc/api/mobileCheckin
+description: mobile-checin
+mediaType: 
+  - application/json
+protocols: [HTTPS]
+
+/demo:
+      get:
+        
+        responses:
+          200:
+            
+securitySchemes:
+  oauth_2_0:
+    description: |
+      This API supports OAuth 2.0 for authenticating all API requests.
+    type: OAuth 2.0
+    describedBy:
+      headers:
+        authorization:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use with the "access_token" query
+             string parameter.
+          type: string
+      queryParameters:
+        access_token:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use together with the "Authorization"
+             header
+          type: string
+      responses:
+        400:
+          description: Invalid token.
+        401:
+          description: |
+            Unauthorized or Connection error when connecting to the authorization server.
+        403:
+          description: |
+            Forbidden, invalid client application credentials.
+        500:
+          description: |
+            Bad response from authorization server, or WSDL SOAP Fault error.
+    settings:
+      authorizationUri: http://oauth-provider-test.us-e1.cloudhub.io/authorize
+      accessTokenUri: http://oauth-provider-test.us-e1.cloudhub.io/validate
+      authorizationGrants: client_credentials
+  
